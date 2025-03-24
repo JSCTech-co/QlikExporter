@@ -1,0 +1,16 @@
+{
+	"name": "QlikExporter",
+	"description": "A Qlik Sense extension for exporting visualizations to Excel and image formats efficiently. Supports batch processing, retry mechanisms, and optimized file handling.",
+	"type": "visualization",
+	"version": "1.0.0",
+	"icon": "extension",
+	"author": "JSCTech jihwon Rim <jihwon.rim@jsct.co.kr>",
+	"homepage": "http://jsct.co.kr/",
+	"keywords": "qlik-sense, visualization",
+	"license": "UNLICENSED",
+	"preview": "preview.png",
+	"repository": "private",
+	"dependencies": {
+		"qlik-sense": ">=3.0.x"
+	}
+}

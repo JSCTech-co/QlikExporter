@@ -1,0 +1,15 @@
+QlikExporter.js;
+src/js/modalScript.js;
+src/js/exportImage.js;
+src/js/exportExcel.js;
+src/js/fileUtils.js;
+src/js/state.js;
+src/js/loadingOverlay.js;
+QlikExporter.qext;
+src/js/properties.js;
+src/html/modalLayout.html;
+src/html/template.html;
+src/css/modalStyle.css;
+src/lib/html2canvas.min.js;
+src/lib/xlsx.full.min.js;
+src/lib/zip-full.min.js;

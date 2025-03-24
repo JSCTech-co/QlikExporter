@@ -1,0 +1,75 @@
+<!-- loading Overlay -->
+<div id="loadingOverlay" style="display: none;">
+	<div id="loadingContainer">
+		<div class="QlikCE-spinner"></div>
+		<div id="QlikCE-loading-text">
+			Downloading ...
+		</div>
+		<button id="QlikCE-cancel-btn">Cancel</button>
+	</div>	
+</div>
+<div id="QlikCE-modal" class="QlikCE-modal" style="display: none;">
+	<div class="QlikCE-modal-content">
+		<div class="QlikCE-title">-</div>
+		<!-- 탭 메뉴 -->
+		<div class="QlikCE-header">
+			<div class="QlikCE-tabs">
+				<button class="QlikCE-tab-button active" data-tab="QlikCE-tab1">Data Export</button>
+				<button class="QlikCE-tab-button" data-tab="QlikCE-tab2">Image Export</button>
+			</div>
+			<div class="QlikCE-refresh">
+				<button class="QlikCE-refresh-btn">&#x21bb;</button>
+			</div>
+		</div>
+
+		<!-- 테이블 내용 (Tab 1) -->
+		<div class="QlikCE-tab-content" id="QlikCE-tab1">
+			<div class="QlikCE-table-container">
+				<table id="QlikCE-table-1" class="QlikCE-table">
+					<thead class="QlikCE-thead">
+						<tr class="QlikCE-tr">
+							<th class="QlikCE-th" style="width:5%"><input type="checkbox" class="QlikCE-select-all" data-target="QlikCE-table-body-1"></th>
+							<th class="QlikCE-th" style="width:25%">Type</th>
+							<th class="QlikCE-th" style="width:70%">Title</th>
+							<!--<th class="QlikCE-th">ID</th>-->
+						</tr>
+					</thead>
+					<tbody id="QlikCE-table-body-1" class="QlikCE-tbody"></tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- 테이블 내용 (Tab 2) -->
+		<div class="QlikCE-tab-content" id="QlikCE-tab2" style="display: none;">
+			<div class="QlikCE-table-container">
+				<table id="QlikCE-table-2" class="QlikCE-table">
+					<thead class="QlikCE-thead">
+						<tr class="QlikCE-tr">
+							<th class="QlikCE-th" style="width:5%"><input type="checkbox" class="QlikCE-select-all" data-target="QlikCE-table-body-2"></th>
+							<th class="QlikCE-th" style="width:25%">Type</th>
+							<th class="QlikCE-th" style="width:70%">Title</th>
+							<!--<th class="QlikCE-th">ID</th>-->
+						</tr>
+					</thead>
+					<tbody id="QlikCE-table-body-2" class="QlikCE-tbody"></tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- 하단 옵션 -->
+		<div class="QlikCE-modal-footer">
+			<div class="QlikCE-encryption-container">
+				<label id="QlikCE-encryption-label" class="QlikCE-fixed-label">
+					<input type="checkbox" id="QlikCE-enable-encryption" checked> Enable Encryption
+				</label>
+				<input type="password" id="QlikCE-password-input" class="QlikCE-password-input" placeholder="Enter password">
+				
+			</div>
+			<div class="QlikCE-button-group">
+				<button id="QlikCE-printscn-btn" class="QlikCE-hidden">Capture Sheet</button>
+				<button id="QlikCE-export-btn">Export</button>
+				<button id="QlikCE-close-btn">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

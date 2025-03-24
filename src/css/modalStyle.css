@@ -1,0 +1,214 @@
+/*title bar*/
+.QlikCE-title{
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+} 
+/* 새로고침 */
+.QlikCE-header {
+    display: flex;
+    justify-content: space-between; /* 좌우 정렬 */
+    align-items: center;
+    border-bottom: 2px solid #bbb;
+}
+.QlikCE-refresh {
+    display: flex;
+    align-items: center;
+}
+
+.QlikCE-refresh-btn:hover {
+    background-color: #ffe3e9;
+}
+
+.QlikCE-refresh-btn{
+	cursor: pointer;
+    color: #e34975;
+    font-weight: bold;
+    background-color: #fefafd;
+    border: 0.135px solid #e34975;
+    border-radius: 4px;
+    font-size: 20px;
+    width: 28px;
+    height: 28px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+/* 오버레이 스타일 */
+#loadingOverlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 9999;
+}
+#loadingContainer{
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#QlikCE-loading-text{
+    color: black;
+    font-size: 18px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.QlikCE-spinner{
+    width: 15px;
+    height: 15px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #e34975;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 5px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+#QlikCE-cancel-btn{
+    padding: 4px 20px;
+    font-size: 13px;
+    border: none;
+	background: #fefafd;
+	border: 1px solid #e34975;
+    color: #e34975;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* 모달 스타일 */
+.QlikCE-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+.QlikCE-modal-content {
+    background: white;
+    width: 600px;
+    max-height: 700px;
+    padding: 12px; /* 패딩 조정 */
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 탭 스타일 */
+.QlikCE-tabs {
+    display: flex;
+    border-bottom: 2px solid #bbb;
+}
+
+.QlikCE-tab-button {
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.QlikCE-tab-button.active {
+    border-bottom: 2px solid #e34975;
+    color: #e34975;
+}
+
+/* 테이블 영역 */
+.QlikCE-table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.QlikCE-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px; /* 텍스트 크기 조정 */
+}
+
+.QlikCE-th, .QlikCE-td {
+    border: 1px solid #ddd;
+    padding: 4px 8px; /* 셀 크기 조정 */
+    text-align: left;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.QlikCE-thead {
+    position: sticky;
+    top: -1;
+    background: white;
+}
+
+/* Footer 스타일 */
+.QlikCE-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    padding: 6px 0;
+    height: 35px;
+}
+
+/* 버튼 스타일 */
+.QlikCE-button-group button, #QlikCE-printscn-btn, #QlikCE-cancel-btn{
+    cursor: pointer;
+    color: #e34975;
+    font-weight: bold;
+    background-color: #fefafd;
+    border: 0.135px solid #e34975;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    height: 28px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.QlikCE-button-group button:hover, #QlikCE-printscn-btn:hover, #QlikCE-cancel-btn:hover{
+    background-color: #ffe3e9;
+}
+
+/* Encryption 옵션 스타일 */
+.QlikCE-encryption-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.QlikCE-password-input {
+    padding: 5px;
+    width: 180px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* 숨김 처리 */
+.QlikCE-hidden {
+    display: none;
+}
+
+/* 체크박스 체크 시 배경색 변경 */
+#QlikCE-modal input[type="checkbox"]:checked {
+	accent-color: #e34975; /* 원하는 색상 적용 */
+}
