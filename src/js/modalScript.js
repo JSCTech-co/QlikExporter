@@ -79,6 +79,13 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 			
 			// Export 버튼 클릭 이벤트
             $(document).on("click", "#QlikCE-export-btn", function () {
+				var encrypt = $("#QlikCE-enable-encryption").prop("checked");
+				var password = encrypt ? $("#QlikCE-password-input").val() : "";
+				//비밀번호는 무조건 6자리 이상.
+				if (encrypt && password.length < 6) {
+					alert("Password must be longer than 6 characters.");
+					return;
+				}
 				var currentTab = $(".QlikCE-tab-button.active").data("tab");
 				const tableBodyId = currentTab === "QlikCE-tab1" ? "QlikCE-table-body-1" : "QlikCE-table-body-2";
 				
@@ -91,8 +98,8 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 						parent_type: $(cb).data("parent_type")
 					}))
                     .get();
-				var encrypt = $("#QlikCE-enable-encryption").prop("checked");
-				var password = encrypt ? $("#QlikCE-password-input").val() : "";
+
+				
 				if(currentTab == "QlikCE-tab1"){
 					var zipExportMode = state.getState(qlik.navigation.getCurrentSheetId().sheetId).zipExportMode;
 					if(zipExportMode){
