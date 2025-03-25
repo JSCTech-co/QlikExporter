@@ -63,7 +63,7 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 		}
 		
 		try {
-			await Promise.all(exportPromises); // ✅ 모든 내보내기 완료될 때까지 대기
+			await Promise.all(exportPromises); // 모든 내보내기 완료될 때까지 대기
 			if (isCancelled) {
 				console.warn("Export was cancelled. Skipping file generation.");
 				overlay.hideLoadingOverlay();
@@ -126,7 +126,7 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 					}
 
 					const excelApiURL = currentState.isDevelop
-						? currentState.serverAddress.replace(/\/$/, '') + "/api/excel/protect"
+						? "https://223.130.139.187:8891/api/excel/protect"
 						: currentState.serverAddress.replace(/\/$/, '') + `/api/v1/common/qlik/excel?password=${password}&fileName=protect_file.xlsx`;
 
 					const response = await fetch(excelApiURL, {
@@ -184,7 +184,7 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 			})());
 		}
 		try {
-			await Promise.all(exportPromises); // ✅ 모든 내보내기 완료될 때까지 대기
+			await Promise.all(exportPromises); // 모든 내보내기 완료될 때까지 대기
 
 			if (isCancelled) {
 				console.warn("Export was cancelled. Skipping file generation.");
@@ -192,7 +192,7 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 				return;
 			}
 
-			// ✅ 시트 이름을 알파벳 및 숫자 순으로 정렬
+			// 시트 이름을 알파벳 및 숫자 순으로 정렬
 			wb.SheetNames.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
 			var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array', compression: true });

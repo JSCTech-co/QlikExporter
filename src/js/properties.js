@@ -25,33 +25,45 @@ define([], function () {
                     expression: "optional",
                     defaultValue: "Export"  
                 },
-                {
-                    ref: "serverAddress",
-                    label: "Encrypt Server URL (Endpoint)",
-                    type: "string",
-                    expression: "optional",
-                    defaultValue: "https://223.130.139.187:8891"  
+				{
+                    ref: "titleFilter",
+                    label: "Filter by title only",
+                    type: "boolean",
+                    defaultValue: true
                 },
 				{
+                    ref: "zipExportMode",
+                    label: "ZIP export (replace Excel merge)",
+                    type: "boolean",
+                    defaultValue: true
+                },
+            ]
+        },
+		developerSettings: {
+			label: "Developer Settings",
+			type: "items",
+			items: {
+				serverAddress: {
+					ref: "serverAddress",
+					label: "Encrypt Server URL (Endpoint)",
+					type: "string",
+					expression: "optional",
+					defaultValue: "https://cqisdev.lge.com"
+				},
+				timeout: {
                     ref: "timeout",
                     label: "Image Render Timeout (ms) Mode",
                     type: "number",
                     defaultValue: 30000
                 },
-				{
-                    ref: "isDevelop",
-                    label: "Develop Mode",
-                    type: "boolean",
-                    defaultValue: true
-                },
-				{
-                    ref: "titleFilter",
-                    label: "Only objects with a title are filtered.",
-                    type: "boolean",
-                    defaultValue: true
-                },
-            ]
-        }
+				isDevelop: {
+					ref: "isDevelop",
+					label: "Develop Mode",
+					type: "boolean",
+					defaultValue: false
+				},
+			}
+		}
     };
 
     return {

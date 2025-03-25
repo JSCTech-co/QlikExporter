@@ -96,8 +96,13 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 				var encrypt = $("#QlikCE-enable-encryption").prop("checked");
 				var password = encrypt ? $("#QlikCE-password-input").val() : "";
 				if(currentTab == "QlikCE-tab1"){
-					//exportExcel.exportSelectedObjects(selectedIds, encrypt, password);
-					exportExcel.exportSelectedObjectsWithZip(selectedIds, encrypt, password);
+					var zipExportMode = state.getState(qlik.navigation.getCurrentSheetId().sheetId).zipExportMode;
+					console.log("zipExportMode : " + zipExportMode);
+					if(zipExportMode){
+						exportExcel.exportSelectedObjectsWithZip(selectedIds, encrypt, password);
+					}else{
+						exportExcel.exportSelectedObjects(selectedIds, encrypt, password);
+					}
 				}else if(currentTab == "QlikCE-tab2"){
 					exportImage.exportImageSelectedObjects(selectedIds, encrypt, password);
 				}
