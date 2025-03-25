@@ -304,7 +304,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 		$(".QlikCE-tab-button[data-tab='QlikCE-tab1']").addClass("active");
 
 		// 체크박스 및 입력 필드 초기화
-		$("input[type='checkbox']").prop("checked", false);
+		$("#QlikCE-modal input[type='checkbox']").prop("checked", false);
 		$("#QlikCE-enable-encryption").prop("checked", true);
 		$("#QlikCE-printscn-btn").addClass("QlikCE-hidden");
 		$("#QlikCE-password-input").val("").removeClass("QlikCE-hidden");

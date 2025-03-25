@@ -48,7 +48,7 @@ function ( qlik, $, template, pLayout, pStyles, pScript, properties) {
 			
 	
 			pScript.init(layout, pLayout);
-			//pScript.paint(layout);
+			pScript.paint(layout);
 			
 			/* 새로고침 버튼 구현 */
 			$(document).off("click", ".QlikCE-refresh-btn").on("click", ".QlikCE-refresh-btn", function () {

@@ -66,7 +66,7 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 				}
 			}
 		}else{
-			// ✅ 모든 요청을 동시에 실행 (다운로드 리스트가 6개 이상일 때 비동기 병렬 요청)
+			// 모든 요청을 동시에 실행 (다운로드 리스트가 6개 이상일 때 비동기 병렬 요청)
 			const exportPromises = selectedObjects.map((obj) =>
 				exportImage(zipWriter, obj)
 					.then(() => {
@@ -76,7 +76,7 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 					.catch((error) => {
 						console.warn(`Export failed for ${obj.id}:`);
 						console.error(error);
-						retryList.push(obj); // 🚀 실패한 항목 저장
+						retryList.push(obj); // 실패한 항목 저장
 						return Promise.reject(error);
 					})
 			);
@@ -84,13 +84,13 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 		}
 		
 
-		// ✅ 실패한 요청들 다시 시도
+		// 실패한 요청들 다시 시도
 		if (retryList.length > 0) {
 			console.warn(`Retrying ${retryList.length} failed exports...`);
 			await retryExportImagesSequentially(retryList, zipWriter);
 		}
 
-		// ✅ ZIP 파일 생성 (다운로드된 이미지가 있을 경우에만)
+		// ZIP 파일 생성 (다운로드된 이미지가 있을 경우에만)
 		if (!isCancelled && selectedObjects.length > 0 && completedImages > 0) {
 			overlay.updateLoadingOverlay("Creating ZIP file...");
 
@@ -231,27 +231,8 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 		});
 	}
 
-	///////////////////////////////// 비동기 테스트 끝 ////////////////////////////////////////
 
 	async function getObjectSizeFromDOM(objId) {
-		/*return new Promise((resolve) => {
-			qlik.currApp().getObject(objId).then(() => {
-				//  Object가 로드된 후 해당 DOM 요소를 찾기
-				let element = document.querySelector(`[tid="${objId}"]`);
-
-				if (element) {
-					let width = element.offsetWidth || 800;
-					let height = element.offsetHeight || 600;
-					resolve({ width, height });
-				} else {
-					console.warn(` Object ${objId} not found in DOM, using default size.`);
-					resolve({ width: 800, height: 600 });
-				}
-			}).catch((error) => {
-				console.error(` Error loading object ${objId}:`, error);
-				resolve({ width: 800, height: 600 });
-			});
-		});*/
 		return new Promise((resolve) => {
 			let element = document.querySelector(`[tid="${objId}"]`);
 			if (element) {
