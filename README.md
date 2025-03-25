@@ -86,10 +86,18 @@ Qlik Sense의 확장 속성 패널을 통해 다양한 옵션을 설정할 수 �
 - `exportImg()`는 병렬 실행 시 Qlik 내부 처리 한계로 일부 실패할 수 있으므로, **재시도 및 실패 처리 로직 포함**
 - **압축 비밀번호 보호**는 일부 압축 해제 프로그램에서만 정상 작동합니다
 - Excel 데이터가 너무 클 경우 Sheet 병합 처리 또는 암호화 API 호출 시 **브라우저 메모리** 또는 **서버 한계**에 도달할 수 있습니다
-- 암호화 옵션이 활성화된 경우, 개별 파일로 ZIP 압축하여 보호하는 방식이 병합 방식보다 더 안정적일 수 있습니다
+
 
 ---
 
-## 📧 문의
 
-버그 제보, 개선 요청, 기술 지원이 필요한 경우 저장소의 이슈 트래커를 통해 문의해주세요.
+## 🛠 기술 스택
+
+- Qlik Sense Extension (RequireJS 기반)
+- JavaScript / jQuery
+- [SheetJS](https://sheetjs.com/) (Excel 병합 및 파싱)
+- [zip.js](https://gildas-lormeau.github.io/zip.js/) (ZIP 압축 및 비밀번호 보호)
+- html2canvas (스크린샷 캡처)
+
+
+---
