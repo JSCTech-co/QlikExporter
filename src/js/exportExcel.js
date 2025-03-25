@@ -11,8 +11,10 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 		// 시트 병합 - 서버 암호화 대신 압축 후 압축 비밀번호 설정
 		sheetId = qlik.navigation.getCurrentSheetId().sheetId;
 		currentState = state.getState(sheetId);
-		console.log(selectedIds);
-		console.log(`Encrypt : ${encrypt}, password: ${password}, serverAddress : ${currentState.serverAddress}`)
+		var debugConsole = currentState.debugConsole;
+
+		if(debugConsole){ console.log(`Encrypt : ${encrypt}, password: ${password}, serverAddress : ${currentState.serverAddress}`) }
+		
 		if( selectedIds.length <= 0){
 			alert("No items selected. Please select at least one item.");
 			return;
@@ -31,30 +33,34 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 		for (const [index, obj] of selectedIds.entries()) {
 			exportPromises.push((async () => {
 				try {
-					console.log(`get visualization ${obj.id} ... `);
+					if(debugConsole){ console.log(`get visualization ${obj.id} ... `); }	
 					let vis = await app.visualization.get(obj.id);
 					if(isCancelled) { return Promise.reject("Cancelled"); }
-					console.log(`export Data ${obj.id} ... `);
+					
+					if(debugConsole){ console.log(`export Data ${obj.id} ... `); }
 					let result = await vis.exportData({ format: "OOXML" });
 					if(isCancelled) { return Promise.reject("Cancelled"); }
-					console.log(`request Fetch ${obj.id} ... `);
+					
+					if(debugConsole){ console.log(`request Fetch ${obj.id} ... `); }
 					let response = await fetch(result);
 					if(isCancelled) { return Promise.reject("Cancelled"); }
 					if (!response.ok) {
 						console.error(`Failed to download excel for ${obj.id}: HTTP ${response.status}`);
 						return Promise.reject("Failed to download");
 					}
-					console.log(`request Fetch ${obj.id} complete ... `);
+					if(debugConsole){ console.log(`request Fetch ${obj.id} complete ... `); }
+
 					let blob = await response.blob();
 					if(isCancelled) { return Promise.reject("Cancelled"); }
-					console.log(`create blob ${obj.id} complete ... `);
+					if(debugConsole){ console.log(`create blob ${obj.id} complete ... `); }
+					
 					
 					var fileName = obj.title ? obj.title : obj.id;
 					fileName = fileUtils.sanitizeFileName(fileName);
 					
 					let file = new File([blob], fileName+".xlsx", { type: blob.type});
 					await fileUtils.addFileToZip(zipWriter, file);
-					console.log(`create zipFile ${obj.id} complete ... `);
+					if(debugConsole){ console.log(`create zipFile ${obj.id} complete ... `); }
 
 				} catch (error) {
 					console.error(`Export failed for ${obj.id}:`, error);
@@ -86,8 +92,9 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
     async function exportSelectedObjects(selectedIds, encrypt, password) {
 		sheetId = qlik.navigation.getCurrentSheetId().sheetId;
 		currentState = state.getState(sheetId);
-		
-		console.log(`Encrypt : ${encrypt}, password: ${password}, serverAddress : ${currentState.serverAddress}`)
+		var debugConsole = currentState.debugConsole;
+
+		if(debugConsole) { console.log(`Encrypt : ${encrypt}, password: ${password}, serverAddress : ${currentState.serverAddress}`) }
 		if( selectedIds.length <= 0){
 			alert("No items selected. Please select at least one item.");
 			return;
@@ -107,15 +114,15 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 		
 		if (selectedIds.length === 1) {
 			// 단일 오브젝트 처리 (병합 X)
-			console.log("Single Object Processing");
+			if(debugConsole){ console.log("Single Object Processing"); }
 			try {
-				console.log(`get visualization ${selectedIds[0].id} ... `);
-				let vis = await app.visualization.get(selectedIds[0].id);
-				console.log(`export Data ${selectedIds[0].id} ... `);
+				if(debugConsole){ console.log(`get visualization ${selectedIds[0].id} ... `); }
+				let vis = await app.visualization.get(selectedIds[0].id); 
+				if(debugConsole){ console.log(`export Data ${selectedIds[0].id} ... `); }
 				let result = await vis.exportData({ format: "OOXML" });
-				console.log(`request Fetch ${selectedIds[0].id} ... `);
+				if(debugConsole){ console.log(`request Fetch ${selectedIds[0].id} ... `); }
 				let data = await safeFetch(result);
-				console.log(`request Fetch ${selectedIds[0].id} complete ... `);
+				if(debugConsole){ console.log(`request Fetch ${selectedIds[0].id} complete ... `); }
 				let blob = new Blob([data], { type: 'application/octet-stream' });
 
 				if (encrypt && currentState.serverAddress) {
@@ -158,26 +165,26 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 		for (const [index, obj] of selectedIds.entries()) {
 			exportPromises.push((async () => {
 				try {
-					console.log(`get visualization ${obj.id} ... `);
+					if(debugConsole){ console.log(`get visualization ${obj.id} ... `); }
 					let vis = await app.visualization.get(obj.id);
-					console.log(`export Data ${obj.id} ... `);
+					if(debugConsole){ console.log(`export Data ${obj.id} ... `); }
 					let result = await vis.exportData({ format: "OOXML" });
-					console.log(`request Fetch ${obj.id} ... `);
+					if(debugConsole){ console.log(`request Fetch ${obj.id} ... `); }
 					let data = await safeFetch(result);
-					console.log(`request Fetch ${obj.id} complete ... `);
+					if(debugConsole){ console.log(`request Fetch ${obj.id} complete ... `); }
 					
 					var newWorkbook = XLSX.read(new Uint8Array(data), { type: "array" });
-					console.log(`create workbook ${obj.id} complete ... `);
+					if(debugConsole){ console.log(`create workbook ${obj.id} complete ... `); }
 					var sheetName = newWorkbook.SheetNames[0];
-					console.log(`create sheetName ${obj.id} complete ... `);
+					if(debugConsole){ console.log(`create sheetName ${obj.id} complete ... `); }
 					var newSheet = newWorkbook.Sheets[sheetName];
-					console.log(`insert new sheet ${obj.id} complete ... `);
+					if(debugConsole){ console.log(`insert new sheet ${obj.id} complete ... `); }
 					
 					var sheetName = obj.title ? obj.title : obj.id;
 					sheetName = fileUtils.sanitizeSheetName(index, sheetName);
 
 					XLSX.utils.book_append_sheet(wb, newSheet, sheetName);
-					console.log(`create excel sheet ${obj.id} in ${sheetName} ... `);
+					if(debugConsole){ console.log(`create excel sheet ${obj.id} in ${sheetName} ... `); }
 				} catch (error) {
 					console.error(`Export failed for ${obj.id}:`, error);
 				}
@@ -234,7 +241,7 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 					overlay.hideLoadingOverlay();
 
 				} catch (error) {
-					console.log("파일 암호화 중 오류가 발생했습니다.");
+					console.error("An error occurred during file encryption.");
 					overlay.hideLoadingOverlay();
 				}
 
@@ -255,7 +262,6 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 				console.warn("Export process was fully cancelled.");
 			} else {
 				console.error("Error during Excel export process:", error);
-				console.log("엑셀 파일을 생성하는 중 문제가 발생했습니다.");
 			}
 			overlay.hideLoadingOverlay();
 		}
@@ -272,8 +278,7 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
                 return response.arrayBuffer();
             })
             .catch(error => {
-                ////console.error("Fetch error:", error);
-                console.log("파일을 가져오는 데 문제가 발생했습니다. 다시 시도해 주세요."); // 사용자에게 피드백
+                console.error("There was a problem retrieving the file."); // 사용자에게 피드백
                 throw error;  // 상위에서 처리할 수 있도록 오류를 다시 던짐
             });
     }

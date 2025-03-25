@@ -11,9 +11,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
         init: function (layout, pLayout) {
             if (window.QlikCE_EventsRegistered) return;
             window.QlikCE_EventsRegistered = true;
-			$("body").append(pLayout);
-            console.log("Initialized!");
-			
+			$("body").append(pLayout);	
 
             const modal = $("#QlikCE-modal");
             const encryptionCheckbox = $("#QlikCE-enable-encryption");
@@ -97,7 +95,6 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 				var password = encrypt ? $("#QlikCE-password-input").val() : "";
 				if(currentTab == "QlikCE-tab1"){
 					var zipExportMode = state.getState(qlik.navigation.getCurrentSheetId().sheetId).zipExportMode;
-					console.log("zipExportMode : " + zipExportMode);
 					if(zipExportMode){
 						exportExcel.exportSelectedObjectsWithZip(selectedIds, encrypt, password);
 					}else{
@@ -118,7 +115,9 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 		//*
 		//***********************************************************
         paint: async function (layout) {
-            console.log("Paint function called, refreshing data...");
+			var debugConsole = layout.debugConsole;
+			
+            if(debugConsole){ console.log("Paint function called, refreshing data..."); }
 			modalRefresh();
             var app = qlik.currApp();
             currentSheet = qlik.navigation.getCurrentSheetId();
@@ -138,22 +137,21 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 
             try {
                 const props = await app.getObjectProperties(currentSheet.sheetId);
-				console.log(props);
+				if(debugConsole){ console.log(props); }
                 for (const item of props.layout.qChildList.qItems) {
                     await processObject(app, item, props, dataObjectArray, imageObjectArray);
                 }
-                //console.log("Generated Data Object Array:", dataObjectArray);
-                //console.log("Generated Image Object Array:", imageObjectArray);
-
                 // 테이블에 데이터 채우기
                 populateTable("QlikCE-table-body-1", dataObjectArray);
                 populateTable("QlikCE-table-body-2", imageObjectArray);
             } catch (error) {
-                console.log("오브젝트 데이터를 불러오는 데 문제가 발생했습니다.", error);
+                console.error("오브젝트 데이터를 불러오는 데 문제가 발생했습니다.", error);
             } 
-
-			console.log("Paint function completed...");
-			console.log(state.getState(currentSheet.sheetId));
+			if(debugConsole){
+				console.log("Paint function completed...");
+				console.log(state.getState(currentSheet.sheetId));
+			}
+			
             return qlik.Promise.resolve();
         }
     };
@@ -196,7 +194,6 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
     // Object 탐색 함수
     async function processObject(app, item, props, dataObjectArray, imageObjectArray) {
 		//title이 존재하지 않으면 제외
-		console.log(props);
         if (checkObjectType("excel", props, item)) {
             dataObjectArray.push({
 				id: item.qInfo.qId,
@@ -224,9 +221,6 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
         if (["sn-tabbed-container", "sn-layout-container", "container"].includes(item.qInfo.qType)) {
             try {
                 const containerProps = await app.getObjectProperties(item.qInfo.qId);
-				console.log("container props: ");
-				console.log(containerProps);
-                //console.log(`Fetching objects from container: ${item.qInfo.qId}`);
 
                 for (const subItem of containerProps.layout.qChildList.qItems) {
                     await processObject(app, subItem, containerProps, dataObjectArray, imageObjectArray);

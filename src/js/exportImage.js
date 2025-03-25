@@ -1,6 +1,7 @@
 define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", "./loadingOverlay"], function (qlik, $, html2canvas, fileUtils, state, overlay) {
 	var sheetId = qlik.navigation.getCurrentSheetId().sheetId;
 	var currentState = state.getState(sheetId);
+	var debugConsole = false;
 	
 	var isCancelled = false; // 취소 여부를 저장하는 변수
 	var completedImages = 0;
@@ -14,6 +15,7 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
     async function exportImageSelectedObjects(selectedObjects, encrypt, password) {
 		sheetId = qlik.navigation.getCurrentSheetId().sheetId;
 		currentState = state.getState(sheetId);
+		debugConsole = currentState.debugConsole;
 		
 		isCancelled = false;
 		completedImages = 0;
@@ -53,11 +55,11 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 			for (const obj of selectedObjects) {
 				if(isCancelled) break;
 				try {
-					console.log(`export for ${obj.id}...`);
+					if(debugConsole){ console.log(`export for ${obj.id}...`); }
 					await withTimeout(exportImage(zipWriter, obj), currentState.timeout);
 					completedImages++;
 					overlay.updateLoadingOverlay(`Exporting images: ${completedImages}/${totalImages} completed`);
-					console.log(`export succeeded for ${obj.id}`);
+					if(debugConsole){ console.log(`export succeeded for ${obj.id}`); }
 				} catch (error) {
 					retryList.push(obj);
 					console.warn(`export failed for ${obj.id}:`, error.message);
@@ -134,7 +136,7 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 			
 			let imgFile = new File([blob], fileName + ".png", { type: blob.type });
 			fileUtils.addFileToZip(zipWriter, imgFile);
-			console.log(`add File for ${obj.id}:`);
+			if(debugConsole){ console.log(`add File for ${obj.id}:`); }
 			
 			return Promise.resolve();
 		}
@@ -143,9 +145,8 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 			//overlay.updateLoadingOverlay(`Downloading Image ${completedImages + 1} of ${totalImages} ...`);
 			var app = qlik.currApp();
 			let vis = await app.visualization.get(obj.id);
-			console.log(`${obj.id} get visualization ... `);
-			//console.log(vis);
-			
+			if(debugConsole){ console.log(`${obj.id} get visualization ... `); }
+
 			if(isCancelled) return Promise.reject("Export cancelled");
 			
 			var objId;
@@ -160,16 +161,14 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 
 			let settings = { format: 'png', width: width, height: height };
 			let imgUrl;
-			//console.log(currentState.timeout)
+
 			try {
 				imgUrl = await withTimeout(vis.exportImg(settings), currentState.timeout);
 				if (!imgUrl) {
-					//throw new Error(`Failed to export image: No URL returned for ${obj.id}`);
 					return Promise.reject(`Failed to export image: No URL returned for ${obj.id}`);
 				}
 			} catch (error) {
-				//throw new Error(`Error during exportImg for ${obj.id}:`, error);
-				console.error(error);
+				console.error("Error during exportImg : " + error);
 				return Promise.reject(`Error during exportImg for ${obj.id}`);
 				
 			}
@@ -193,7 +192,7 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 			
 			let imgFile = new File([blob], fileName + ".png", { type: blob.type });
 			fileUtils.addFileToZip(zipWriter, imgFile);
-			console.log(`add File for ${obj.id}:`);
+			if(debugConsole){ console.log(`add File for ${obj.id}:`); }
 			
 			return Promise.resolve();
 
@@ -215,11 +214,11 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 	async function retryExportImagesSequentially(retryList, zipWriter) {
 		for (const obj of retryList) {
 			try {
-				console.log(`Retry export for ${obj.id}...`);
+				if(debugConsole){ console.log(`Retry export for ${obj.id}...`); }
 				await withTimeout(exportImage(zipWriter, obj), currentState.timeout);
 				completedImages++;
 				overlay.updateLoadingOverlay(`Exporting images: ${completedImages}/${totalImages} completed`);
-				console.log(`Retry succeeded for ${obj.id}`);
+				if(debugConsole){ console.log(`Retry succeeded for ${obj.id}`); }
 			} catch (error) {
 				console.warn(`Final retry failed for ${obj.id}:`, error.message);
 			}
@@ -271,7 +270,6 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 		overlay.showLoadingOverlay("Image Capture ... ", function(){
 		})
 		var targetElement = $('#grid');
-		console.log(targetElement);
 		// html2canvas로 스크린샷 캡처
 		html2canvas(targetElement[0], {
 			useCORS: true,
@@ -281,7 +279,6 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 			var imageData = canvas.toDataURL("image/png");
 			//var sheetId = qlik.navigation.getCurrentSheetId().sheetId;
 			var sheetName = currentState.sheetName
-			console.log(sheetName);
 			var fileName = fileUtils.sanitizeFileName(sheetName);
 			fileUtils.saveFileFromUrl(imageData, fileName);
 			overlay.hideLoadingOverlay();

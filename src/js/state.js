@@ -19,6 +19,7 @@ define(["qlik"], function (qlik) {
 				timeout: 30000,
 				titleFilter: true,
 				zipExportMode: true,
+                debugConsole: false,
             };
         }
         return instances[sheetId];
@@ -36,6 +37,7 @@ define(["qlik"], function (qlik) {
 		state.timeout = layout.timeout;
 		state.titleFilter = layout.titleFilter;
 		state.zipExportMode = layout.zipExportMode;
+        state.debugConsole = layout.debugConsole;
     }
 
     function getState(sheetId) {

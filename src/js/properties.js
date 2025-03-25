@@ -62,6 +62,12 @@ define([], function () {
 					type: "boolean",
 					defaultValue: false
 				},
+                debugConsole: {
+                    ref: "debugConsole",
+					label: "Debug Console",
+					type: "boolean",
+					defaultValue: false
+                }
 			}
 		}
     };
