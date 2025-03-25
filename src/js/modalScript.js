@@ -32,7 +32,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 
             // 모달 닫기 버튼 이벤트
             $(document).on("click", "#QlikCE-close-btn", function () {
-                modalRefresh();
+                modalRefresh(layout);
 				modal.hide();
             });
 
@@ -125,7 +125,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 			var debugConsole = layout.debugConsole;
 			
             if(debugConsole){ console.log("Paint function called, refreshing data..."); }
-			modalRefresh();
+			modalRefresh(layout);
             var app = qlik.currApp();
             currentSheet = qlik.navigation.getCurrentSheetId();
 
@@ -303,7 +303,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 		
 		return qTypeCond && titleCond && childCond && bugTableCond;
 	}
-	function modalRefresh(){
+	function modalRefresh(layout){
 		// 활성 탭 초기화
 		$(".QlikCE-tab-button").removeClass("active");
 		$(".QlikCE-tab-content").hide();
@@ -312,9 +312,19 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 
 		// 체크박스 및 입력 필드 초기화
 		$("#QlikCE-modal input[type='checkbox']").prop("checked", false);
-		$("#QlikCE-enable-encryption").prop("checked", true);
+		
 		$("#QlikCE-printscn-btn").addClass("QlikCE-hidden");
 		$("#QlikCE-password-input").val("").removeClass("QlikCE-hidden");
+
+		// forceEncryption 체크
+		if(layout.forceEncrypt){
+			$("#QlikCE-enable-encryption").prop("checked", true).prop("disabled", true).addClass("QlikCE-hidden");;
+			$("#QlikCE-password-input").removeClass("QlikCE-hidden");
+			$("#QlikCE-encryption-text").text("Encryption Required")
+		}else{
+			$("#QlikCE-enable-encryption").prop("checked", true).prop("disabled", false).removeClass("QlikCE-hidden");
+			$("#QlikCE-encryption-text").text("Encrypt File (Optional)")
+		}
 
 		lastActiveTab = "QlikCE-tab1";
 	}

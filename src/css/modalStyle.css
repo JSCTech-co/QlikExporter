@@ -212,3 +212,7 @@
 #QlikCE-modal input[type="checkbox"]:checked {
 	accent-color: #e34975; /* 원하는 색상 적용 */
 }
+
+#QlikCE-encryption-text{
+    font-weight: bold;
+}

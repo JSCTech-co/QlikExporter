@@ -20,6 +20,7 @@ define(["qlik"], function (qlik) {
 				titleFilter: true,
 				zipExportMode: true,
                 debugConsole: false,
+                forceEncrypt: true,
             };
         }
         return instances[sheetId];
@@ -38,6 +39,7 @@ define(["qlik"], function (qlik) {
 		state.titleFilter = layout.titleFilter;
 		state.zipExportMode = layout.zipExportMode;
         state.debugConsole = layout.debugConsole;
+        state.forceEncrypt = layout.forceEncrypt;
     }
 
     function getState(sheetId) {

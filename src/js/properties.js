@@ -37,6 +37,12 @@ define([], function () {
                     type: "boolean",
                     defaultValue: true
                 },
+                {
+                    ref: "forceEncrypt",
+                    label: "Force Encryption",
+                    type: "boolean",
+                    defaultValue: true
+                },
             ]
         },
 		developerSettings: {
