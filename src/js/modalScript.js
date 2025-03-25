@@ -46,7 +46,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
                 $(".QlikCE-tab-content").hide();
                 $("#" + currentTab).show();
 
-                $("input[type='checkbox']").prop("checked", false);
+                $("#QlikCE-modal input[type='checkbox']").prop("checked", false);
 
                 if (currentTab === "QlikCE-tab2") {
                     encryptionCheckbox.prop("checked", true);
