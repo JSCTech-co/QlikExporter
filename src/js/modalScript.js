@@ -1,6 +1,7 @@
 define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exportExcel"], function (qlik, $, state, overlay, exportImage, exportExcel) {
 	let lastActiveTab = "QlikCE-tab1";
 	var currentSheet = qlik.navigation.getCurrentSheetId();
+	var currentLayout;
 	
     return {
 		//***********************************************************
@@ -9,6 +10,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 		//*
 		//***********************************************************
         init: function (layout, pLayout) {
+			currentLayout = layout;
             if (window.QlikCE_EventsRegistered) return;
             window.QlikCE_EventsRegistered = true;
 			$("body").append(pLayout);	
@@ -26,7 +28,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
                 if (mode === "edit") {
                     return;
                 }
-				self.paint(layout);
+				self.paint(currentLayout);
 				modal.show();
             });
 
@@ -51,11 +53,16 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
                 if (currentTab === "QlikCE-tab2") {
                     encryptionCheckbox.prop("checked", true);
                     passwordInput.removeClass("QlikCE-hidden").val("");
-					$("#QlikCE-printscn-btn").removeClass("QlikCE-hidden");
+					if(currentLayout.enableCapture){
+						$("#QlikCE-printscn-btn").removeClass("QlikCE-hidden");
+					}
+					
                 } else if (lastActiveTab === "QlikCE-tab2" && currentTab === "QlikCE-tab1") {
                     encryptionCheckbox.prop("checked", true);
 					passwordInput.removeClass("QlikCE-hidden").val("");
-					$("#QlikCE-printscn-btn").addClass("QlikCE-hidden");
+					if(currentLayout.enableCapture){
+						$("#QlikCE-printscn-btn").addClass("QlikCE-hidden");
+					}
                 }
 
                 lastActiveTab = currentTab;
@@ -74,7 +81,13 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 			
 			// PrintScn 버튼 이벤트
 			$(document).on("click", "#QlikCE-printscn-btn", function () {
-				exportImage.exportPrintScreen();
+				if(currentLayout.enableCapture){
+					if(currentLayout.captureLibrary){
+						exportImage.exportPrintScreen();
+					}else{
+						exportImage.exportPrintScreenFromHTI();
+					}
+				}
 			});
 			
 			// Export 버튼 클릭 이벤트
@@ -312,8 +325,9 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 
 		// 체크박스 및 입력 필드 초기화
 		$("#QlikCE-modal input[type='checkbox']").prop("checked", false);
-		
-		$("#QlikCE-printscn-btn").addClass("QlikCE-hidden");
+		if(layout.enableCapture){
+			$("#QlikCE-printscn-btn").addClass("QlikCE-hidden");
+		}
 		$("#QlikCE-password-input").val("").removeClass("QlikCE-hidden");
 
 		// forceEncryption 체크

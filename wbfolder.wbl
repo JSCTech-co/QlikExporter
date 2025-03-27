@@ -13,3 +13,4 @@ src/css/modalStyle.css;
 src/lib/html2canvas.min.js;
 src/lib/xlsx.full.min.js;
 src/lib/zip-full.min.js;
+src/lib/htmltoimage.min.js;

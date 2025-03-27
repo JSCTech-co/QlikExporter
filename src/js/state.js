@@ -21,6 +21,9 @@ define(["qlik"], function (qlik) {
 				zipExportMode: true,
                 debugConsole: false,
                 forceEncrypt: true,
+                enableCapture: false,
+                captureLibrary: false,
+
             };
         }
         return instances[sheetId];
@@ -40,6 +43,8 @@ define(["qlik"], function (qlik) {
 		state.zipExportMode = layout.zipExportMode;
         state.debugConsole = layout.debugConsole;
         state.forceEncrypt = layout.forceEncrypt;
+        state.enableCapture = layout.enableCapture;
+        state.captureLibrary = layout.captureLibrary;
     }
 
     function getState(sheetId) {

@@ -1,7 +1,8 @@
-define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", "./loadingOverlay"], function (qlik, $, html2canvas, fileUtils, state, overlay) {
+define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", "./loadingOverlay", "../lib/htmltoimage.min"], function (qlik, $, html2canvas, fileUtils, state, overlay, htmltoimage) {
 	var sheetId = qlik.navigation.getCurrentSheetId().sheetId;
 	var currentState = state.getState(sheetId);
 	var debugConsole = false;
+
 	
 	var isCancelled = false; // 취소 여부를 저장하는 변수
 	var completedImages = 0;
@@ -266,5 +267,26 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 		});
 	}
 
-    return { exportImageSelectedObjects, getObjectSizeFromDOM, exportPrintScreen };
+	function exportPrintScreenFromHTI(){
+		//htmlToImage 를 이용한 화면 캡쳐
+		overlay.showLoadingOverlay("Image Capture ... ", function(){
+		})
+		var targetElement = document.getElementById('qs-page-container');
+		htmltoimage.toPng(targetElement, {
+			cacheBust: true,
+		})
+		.then(function (dataUrl) {
+			// 이미지 데이터 URL 생성 완료
+			var sheetName = currentState.sheetName;
+			var fileName = fileUtils.sanitizeFileName(sheetName);
+			fileUtils.saveFileFromUrl(dataUrl, fileName);
+			overlay.hideLoadingOverlay();
+		})
+		.catch(function (error) {
+			console.error('이미지 캡처 실패:', error);
+			overlay.hideLoadingOverlay();
+		});
+	}
+
+    return { exportImageSelectedObjects, getObjectSizeFromDOM, exportPrintScreen, exportPrintScreenFromHTI };
 });

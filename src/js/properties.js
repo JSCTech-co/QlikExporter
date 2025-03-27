@@ -7,43 +7,87 @@ define([], function () {
 
     var settings = {
         // property panel definition
-        mysection: {
-            label: "Extension Settings",
-            type: "items",
-            items: [
-                {
-                    ref: "customCss",
-                    label: "Button CSS",
-                    type: "string",
-                    expression: "optional",
-                    defaultValue: "width: 100%;height: 100%;cursor: pointer;color: #e34975;font-weight: bold;background-color: #fefafd;border: 0.135px solid #e34975;padding: 6px 14px;border-radius: 4px;font-size: 12px;"
-                },
-                { 
+		styleSettings: {
+			label: "Style Settings",
+			type: "items",
+			items: {
+			     buttonText: { 
                     ref: "buttonText",
                     label: "Button Text",
                     type: "string",
                     expression: "optional",
                     defaultValue: "Export"  
                 },
-				{
+				customCss: {
+                    ref: "customCss",
+                    label: "Button CSS",
+                    type: "string",
+                    expression: "optional",
+                    defaultValue: "width: 100%;height: 100%;cursor: pointer;color: #e34975;font-weight: bold;background-color: #fefafd;border: 0.135px solid #e34975;padding: 6px 14px;border-radius: 4px;font-size: 12px;"
+                }
+			}
+		},
+        extensionSettings: {
+            label: "Extension Settings",
+            type: "items",
+            items: {
+				titleFilter: {
                     ref: "titleFilter",
-                    label: "Filter by title only",
+                    label: "Only titled objects",
                     type: "boolean",
+                    component: "switch",
+                    options: [{
+                        value: false,
+                        label: "False",
+                    },{
+                        value: true,
+                        label: "True"
+                    }],
                     defaultValue: true
                 },
-				{
+				zipExportMode:{
                     ref: "zipExportMode",
-                    label: "ZIP export (replace Excel merge)",
+                    label: "Data Export Mode",
                     type: "boolean",
+                    component: "switch",
+                    options: [{
+                        value: false,
+                        label: "Sheet Merge",
+                    },{
+                        value: true,
+                        label: "Zip File"
+                    }],
                     defaultValue: true
                 },
-                {
+                forceEncrypt: {
                     ref: "forceEncrypt",
-                    label: "Force Encryption",
+                    label: "Encryption Mode",
                     type: "boolean",
+                    component: "switch",
+                    options: [{
+                        value: false,
+                        label: "Encryption is optional",
+                    },{
+                        value: true,
+                        label: "Encryption is required"
+                    }],
                     defaultValue: true
                 },
-            ]
+                enableCapture: {
+                    ref: "enableCapture",
+                    label: "Screen Capture",
+                    type: "boolean",
+                    component: "switch",
+                    options: [{
+                        value: true,
+                        label: "Enable",
+                    },{
+                        value: false,
+                        label: "Disable"
+                    }],
+                    defaultValue: false
+                }
+			}
         },
 		developerSettings: {
 			label: "Developer Settings",
@@ -66,13 +110,43 @@ define([], function () {
 					ref: "isDevelop",
 					label: "Develop Mode",
 					type: "boolean",
+                    component: "switch",
+                    options: [{
+                        value: false,
+                        label: "Disable",
+                    },{
+                        value: true,
+                        label: "Enable"
+                    }],
 					defaultValue: false
 				},
                 debugConsole: {
                     ref: "debugConsole",
 					label: "Debug Console",
 					type: "boolean",
+                    component: "switch",
+                    options: [{
+                        value: false,
+                        label: "Debug Console Off",
+                    },{
+                        value: true,
+                        label: "Debug Console On"
+                    }],
 					defaultValue: false
+                },
+                captureLibrary:{
+                    ref: "captureLibrary",
+                    label: "Capture Library",
+                    type: "boolean",
+                    component: "switch",
+                    options: [{
+                        value: false,
+                        label: "Html2Canvas",
+                    },{
+                        value: true,
+                        label: "Html-To-Image"
+                    }],
+                    defaultValue: false
                 }
 			}
 		}

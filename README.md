@@ -16,7 +16,7 @@
 - 시각화 오브젝트를 이미지(PNG)로 추출하여 ZIP으로 묶어 다운로드
 - `exportImg()` API 기반 이미지 렌더링
 - **렌더링 실패 자동 재시도**, **타임아웃 설정**, **사용자 취소 이벤트** 제공
-- `html2canvas` 기반 전체 시트 화면 캡처 기능(스크린샷 저장)
+- `html2canvas`/`html-to-image` 기반 전체 시트 화면 캡처 기능(스크린샷 저장)
 
 ### 🔐 ZIP 압축 및 비밀번호 보호
 - `zip.js`를 사용하여 압축 파일 생성
@@ -77,10 +77,12 @@ Qlik Sense의 확장 속성 패널을 통해 다양한 옵션을 설정할 수 �
 | **Title Filter** | 오브젝트 중 **제목이 없는 시각화 객체는 필터링**하여 제외할지 여부를 설정합니다. 기본값: `true` |
 | **ZipExportMode** | 엑셀 시트 병합 및 엑셀파일 암호화 대신 zip 압축 및 압축파일 암호화 모드를 활성화합니다. 기본값: `true` |
 | **forceEncrypt** | 사용자에게 암호 입력을 강제하여 항상 암호화된 파일만 다운로드되도록 설정합니다. 기본값: `true` |
+| **enableCapture** | 전체화면 캡쳐기능을 활성화합니다. (DOM 기반 이미지 캡쳐 품질 이슈로 사용자 선택화) 기본값: `false` |
 | **Encrypt Server URL (Endpoint)** | 엑셀 암호화를 처리하는 외부 서버 API 주소입니다. |
 | **Image Render Timeout (ms)** | `exportImg()`로 이미지를 렌더링할 때 허용되는 최대 대기 시간(ms). 기본값: `30000` (30초) |
 | **Develop Mode** | 개발용 서버 경로를 사용할지 여부를 설정합니다. `true`일 경우 테스트용 API 경로로 요청이 전송됩니다 |
 | **Debug Console** | Debug용 Console.log를 활성화 합니다. 기본값 : `false` |
+| **CaptureLibrary** | 전체화면 캡쳐기능에 사용할 library를 선택합니다. (false : html2canvas, true:html-to-image) 기본값 : `false (html2canvas)` |
 ---
 
 ## 🚧 주의사항
