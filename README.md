@@ -70,14 +70,23 @@
 
 Qlik Sense의 확장 속성 패널을 통해 다양한 옵션을 설정할 수 있습니다:
 
+**✅ Style Settings**
 | 항목 | 설명 |
 |------|------|
 | **Button Text** | 버튼에 표시될 텍스트를 설정합니다. 기본값: `"Export"` |
 | **Button CSS** | 버튼 스타일을 직접 지정할 수 있는 CSS 문자열입니다. 기본값: 붉은색 테두리 스타일 |
+
+**✅ Extension Settings**
+| 항목 | 설명 |
+|------|------|
 | **Title Filter** | 오브젝트 중 **제목이 없는 시각화 객체는 필터링**하여 제외할지 여부를 설정합니다. 기본값: `true` |
 | **ZipExportMode** | 엑셀 시트 병합 및 엑셀파일 암호화 대신 zip 압축 및 압축파일 암호화 모드를 활성화합니다. 기본값: `true` |
 | **forceEncrypt** | 사용자에게 암호 입력을 강제하여 항상 암호화된 파일만 다운로드되도록 설정합니다. 기본값: `true` |
 | **enableCapture** | 전체화면 캡쳐기능을 활성화합니다. (DOM 기반 이미지 캡쳐 품질 이슈로 사용자 선택화) 기본값: `false` |
+
+**✅ Develop Settings**
+| 항목 | 설명 |
+|------|------|
 | **Encrypt Server URL (Endpoint)** | 엑셀 암호화를 처리하는 외부 서버 API 주소입니다. |
 | **Image Render Timeout (ms)** | `exportImg()`로 이미지를 렌더링할 때 허용되는 최대 대기 시간(ms). 기본값: `30000` (30초) |
 | **Develop Mode** | 개발용 서버 경로를 사용할지 여부를 설정합니다. `true`일 경우 테스트용 API 경로로 요청이 전송됩니다 |
