@@ -82,7 +82,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 			// PrintScn 버튼 이벤트
 			$(document).on("click", "#QlikCE-printscn-btn", function () {
 				if(currentLayout.enableCapture){
-					if(currentLayout.captureLibrary){
+					if(!currentLayout.captureLibrary){
 						exportImage.exportPrintScreen();
 					}else{
 						exportImage.exportPrintScreenFromHTI();
