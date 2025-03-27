@@ -111,6 +111,7 @@ Qlik Sense의 확장 속성 패널을 통해 다양한 옵션을 설정할 수 �
 - [SheetJS](https://sheetjs.com/) (Excel 병합 및 파싱)
 - [zip.js](https://gildas-lormeau.github.io/zip.js/) (ZIP 압축 및 비밀번호 보호)
 - html2canvas (스크린샷 캡처)
+- html-to-image (스크린샷 캡처)
 
 
 ---
