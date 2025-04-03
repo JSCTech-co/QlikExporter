@@ -1,4 +1,4 @@
-define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./loadingOverlay"], function (qlik, $, XLSX, fileUtils, state, overlay) {
+define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./loadingOverlay", "./checkUtils"], function (qlik, $, XLSX, fileUtils, state, overlay, checkUtils) {
 	var sheetId = qlik.navigation.getCurrentSheetId().sheetId;
 	var currentState = state.getState(sheetId);
 	
@@ -7,66 +7,6 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 	//* Object Data Export to Excel
 	//*
 	//***********************************************************
-
-	async function checkColumnFilter(selectedIds){
-		var debugConsole = currentState.debugConsole;
-		
-		const rawFilterString = currentState.columnFilter || '';
-		if(!rawFilterString) return { result: true, matchedIds: []};
-		const matchedIds = [];
-
-		//object Properties TEST
-		for (const [index, obj] of selectedIds.entries()) {
-			const validTypes = ['table', 'pivot-table', 'sn-table', 'sn-pivot-table'];
-			if (!validTypes.includes(obj.type)) {
-				continue;
-			}
-
-			var objProps = await qlik.currApp().getObjectProperties(obj.id);
-			const props = objProps.properties;
-			const layout = objProps.layout;
-			let dimensionInfo = layout.qHyperCube.qDimensionInfo;
-			const dimensionInfoFields = dimensionInfo.flatMap(dim =>
-				dim.qFallbackTitle ? [dim.qFallbackTitle] : []
-			);	
-			//console.log(dimensionInfoFields);		
-			const normalizedDimensionFields = new Set(
-				dimensionInfoFields.map(f =>
-					f.replace(/\s+/g, '').toLowerCase()
-				)
-			);
-	
-			const normalizedFieldSet = new Set(
-				rawFilterString
-					.split(';')
-					.map(s => s.trim())
-					.filter(Boolean)
-					.map(s => s.replace(/\s+/g, '').toLowerCase())
-			);
-
-			if(debugConsole) {
-				console.log(normalizedDimensionFields);
-				console.log(normalizedFieldSet);
-			}
-			
-
-			const matchingFields = [...normalizedFieldSet].filter(field =>
-				normalizedDimensionFields.has(field)
-			);
-			
-			if (matchingFields.length > 0) {
-				console.warn('Matching Fields', matchingFields);
-				matchedIds.push({
-					id: obj.id,
-					title: obj.title || '',
-					matchedFields: matchingFields
-				});
-			}
-		}
-
-		const result = matchedIds.length === 0;
-		return {result, matchedIds};
-	}
 	async function exportSelectedObjectsWithZip(selectedIds, encrypt, password){
 		// 시트 병합 - 서버 암호화 대신 압축 후 압축 비밀번호 설정
 		sheetId = qlik.navigation.getCurrentSheetId().sheetId;
@@ -83,7 +23,7 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 			alert("Please enter a password to enable encryption.");
 			return;
 		}
-		var { result, matchedIds } = await checkColumnFilter(selectedIds);
+		var { result, matchedIds } = await checkUtils.checkColumnFilter(selectedIds);
 		if(!result){
 			const titles = matchedIds.map(obj => obj.title?.trim() || obj.id);
 			const message = `Export blocked for the following tables due to privacy policy restrictions: ${titles.join(', ')}`;
@@ -172,7 +112,7 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 			alert("Please enter a password to enable encryption.");
 			return;
 		}
-		var { result, matchedIds } = await checkColumnFilter(selectedIds);
+		var { result, matchedIds } = await checkUtils.checkColumnFilter(selectedIds);
 		if(!result){
 			const titles = matchedIds.map(obj => obj.title?.trim() || obj.id);
 			const message = `Export blocked for the following tables due to privacy policy restrictions: ${titles.join(', ')}`;
