@@ -26,8 +26,12 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 		var { result, matchedIds } = await checkUtils.checkColumnFilter(selectedIds);
 		if(!result){
 			const titles = matchedIds.map(obj => obj.title?.trim() || obj.id);
-			const message = `${currentState.filteredMessage}: ${titles.join(', ')}`  || 
-			`Export blocked for the following tables due to privacy policy restrictions: ${titles.join(', ')}`;
+			let message;
+			if(currentState.filteredMessage){
+				message = `${currentState.filteredMessage}: ${titles.join(', ')}`  
+			}else{
+				message = `Export blocked for the following tables due to privacy policy restrictions: ${titles.join(', ')}`;
+			}
 			alert(message);
 			return;
 		}
@@ -116,8 +120,12 @@ define(["qlik", "jquery", "../lib/xlsx.full.min", "./fileUtils", "./state", "./l
 		var { result, matchedIds } = await checkUtils.checkColumnFilter(selectedIds);
 		if(!result){
 			const titles = matchedIds.map(obj => obj.title?.trim() || obj.id);
-			const message = `${currentState.filteredMessage}: ${titles.join(', ')}`  || 
-			`Export blocked for the following tables due to privacy policy restrictions: ${titles.join(', ')}`;
+			let message;
+			if(currentState.filteredMessage){
+				message = `${currentState.filteredMessage}: ${titles.join(', ')}`  
+			}else{
+				message = `Export blocked for the following tables due to privacy policy restrictions: ${titles.join(', ')}`;
+			}
 			alert(message);
 			return;
 		}
