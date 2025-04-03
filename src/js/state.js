@@ -23,6 +23,8 @@ define(["qlik"], function (qlik) {
                 forceEncrypt: true,
                 enableCapture: false,
                 captureLibrary: false,
+                columnFilter: "",
+
 
             };
         }
@@ -45,6 +47,7 @@ define(["qlik"], function (qlik) {
         state.forceEncrypt = layout.forceEncrypt;
         state.enableCapture = layout.enableCapture;
         state.captureLibrary = layout.captureLibrary;
+        state.columnFilter = layout.columnFilter;
     }
 
     function getState(sheetId) {

@@ -86,6 +86,13 @@ define([], function () {
                         label: "Disable"
                     }],
                     defaultValue: false
+                },
+                columnFilter: {
+                    ref: "columnFilter",
+                    label: "Column Filter",
+                    type: "string",
+                    expression: "optional",
+                    defaultValue: ""
                 }
 			}
         },
