@@ -93,6 +93,12 @@ define([], function () {
                     type: "string",
                     expression: "optional",
                     defaultValue: ""
+                },
+                filteredMessage: {
+                    ref: "filteredMessage",
+                    label: "Export message for column filter",
+                    type: "string",
+                    defaultValue: ""
                 }
 			}
         },

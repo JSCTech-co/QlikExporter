@@ -24,6 +24,7 @@ define(["qlik"], function (qlik) {
                 enableCapture: false,
                 captureLibrary: false,
                 columnFilter: "",
+                filteredMessage: "",
 
 
             };
@@ -48,6 +49,7 @@ define(["qlik"], function (qlik) {
         state.enableCapture = layout.enableCapture;
         state.captureLibrary = layout.captureLibrary;
         state.columnFilter = layout.columnFilter;
+        state.filteredMessage = layout.filteredMessage;
     }
 
     function getState(sheetId) {

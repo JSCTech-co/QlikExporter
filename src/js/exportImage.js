@@ -34,7 +34,8 @@ define(["qlik", "jquery", "../lib/html2canvas.min", "./fileUtils", "./state", ".
 			var { result, matchedIds } = await checkUtils.checkColumnFilter(selectedObjects);
 			if(!result){
 				const titles = matchedIds.map(obj => obj.title?.trim() || obj.id);
-				const message = `Export blocked for the following tables due to privacy policy restrictions: ${titles.join(', ')}`;
+				const message = `${currentState.filteredMessage}: ${titles.join(', ')}`  || 
+				`Export blocked for the following tables due to privacy policy restrictions: ${titles.join(', ')}`;
 				alert(message);
 				return;
 			}

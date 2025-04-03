@@ -84,6 +84,7 @@ Qlik Sense의 확장 속성 패널을 통해 다양한 옵션을 설정할 수 �
 | **forceEncrypt** | 사용자에게 암호 입력을 강제하여 항상 암호화된 파일만 다운로드되도록 설정합니다. 기본값: `true` |
 | **enableCapture** | 전체화면 캡쳐기능을 활성화합니다. (DOM 기반 이미지 캡쳐 품질 이슈로 사용자 선택화) 기본값: `false` |
 | **Column Filter** | 특정 컬럼이 포함된 테이블의 내보내기를 차단하기 위한 컬럼명 목록. 대소문자는 구분하지 않으며, 항목은 세미콜론(;)으로 구분합니다. |
+| **Export message for column filter** | Column Filter 메시지 |
 
 **✅ Develop Settings**
 | 항목 | 설명 |

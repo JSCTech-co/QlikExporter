@@ -4,6 +4,8 @@ define(["qlik", "./state"], function (qlik, state) {
 	var debugConsole = false;
 
     async function checkColumnFilter(selectedIds){
+		sheetId = qlik.navigation.getCurrentSheetId().sheetId;
+		currentState = state.getState(sheetId);
 		debugConsole = currentState.debugConsole;
 		
 		const rawFilterString = currentState.columnFilter || '';
