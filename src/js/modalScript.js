@@ -271,7 +271,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 			"distributionplot", "boxplot", "table", "piechart", "combochart",
 			"pivot-table", "treemap", "waterfallchart", "qlik-multi-kpi",
 			"histogram", "kpi", "sn-table", "qlik-word-cloud", "map", "qlik-radar-chart",
-			"sn-nlg-chart", "childObject", "bi-irregular-2dim-heatmap", "map"
+			"sn-nlg-chart", "childObject", "bi-irregular-2dim-heatmap", "map", "sn-pivot-table"
 		];
 		
 		var qTypeCond = false;
