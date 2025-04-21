@@ -263,7 +263,7 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 			"distributionplot", "table", "piechart", "combochart",
 			"pivot-table", "treemap", "waterfallchart", "sn-pivot-table",
 			"histogram", "kpi", "sn-table",	"qlik-word-cloud", "qlik-multi-kpi", "qlik-radar-chart",
-			"childObject", "bi-irregular-2dim-heatmap"
+			"childObject", "bi-irregular-2dim-heatmap", "scatterplot"
 		];
 		// Image Export 가능한 타입 (text-image, sn-pivot-table 제외)
 		var imageableTypes = [
@@ -271,7 +271,8 @@ define(["qlik", "jquery", "./state", "./loadingOverlay", "./exportImage", "./exp
 			"distributionplot", "boxplot", "table", "piechart", "combochart",
 			"pivot-table", "treemap", "waterfallchart", "qlik-multi-kpi",
 			"histogram", "kpi", "sn-table", "qlik-word-cloud", "map", "qlik-radar-chart",
-			"sn-nlg-chart", "childObject", "bi-irregular-2dim-heatmap", "map", "sn-pivot-table"
+			"sn-nlg-chart", "childObject", "bi-irregular-2dim-heatmap", "map", "sn-pivot-table",
+			"scatterplot"
 		];
 		
 		var qTypeCond = false;
